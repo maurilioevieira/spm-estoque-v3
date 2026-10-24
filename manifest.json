@@ -1,0 +1,21 @@
+{
+  "name": "SPM · Controle de Estoque",
+  "short_name": "Estoque SPM",
+  "description": "Controle de estoque da Logística da SPM",
+  "lang": "pt-BR",
+  "start_url": "./#/estoque",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F2F5F9",
+  "theme_color": "#0D1F38",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Estoque", "url": "./#/estoque", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Relatórios", "url": "./#/relatorios", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }] }
+  ]
+}

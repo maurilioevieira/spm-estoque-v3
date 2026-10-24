@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0D1F38">
+  <meta name="robots" content="noindex, nofollow">
+  <title>SPM · Controle de Estoque</title>
+
+  <!-- App instalável (PWA) -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Estoque SPM">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== TELA DE ABERTURA ===================== -->
+  <div id="boot" class="boot" role="status">
+    <div class="brand-mark brand-mark-lg">SPM</div>
+    <p id="bootMsg">Carregando…</p>
+  </div>
+  <script>
+    // Se o código principal não carregar (internet ruim, bloqueio), avisa
+    // em vez de deixar a tela parada para sempre.
+    setTimeout(function () {
+      if (!window.__appOk) {
+        var m = document.getElementById('bootMsg');
+        if (m) m.innerHTML = 'Não foi possível abrir o app. Verifique a internet.<br><button class="btn btn-primary" style="margin-top:14px" onclick="location.reload()">Tentar de novo</button>';
+      }
+    }, 12000);
+  </script>
+
+  <!-- ========================== LOGIN ========================== -->
+  <main id="login" class="login" hidden>
+    <form id="loginForm" class="login-card" autocomplete="on">
+      <div class="brand">
+        <div class="brand-mark">SPM</div>
+        <div class="brand-name">Controle de Estoque<small>SPM · Logística</small></div>
+      </div>
+      <label>Quem está entrando?</label>
+      <div class="who" id="who" role="group" aria-label="Conta"></div>
+      <label for="pin">PIN</label>
+      <input id="pin" type="password" autocomplete="current-password" placeholder="Digite seu PIN" required>
+      <button id="loginBtn" type="submit" class="btn btn-primary" style="margin-top:10px">Entrar</button>
+      <p id="loginMsg" class="login-msg" role="alert"></p>
+    </form>
+  </main>
+
+  <!-- =========================== APP =========================== -->
+  <div id="app" class="layout" hidden>
+    <nav class="sidebar" aria-label="Menu principal">
+      <div class="brand">
+        <div class="brand-mark">SPM</div>
+        <div class="brand-name">Controle de Estoque<small>SPM · Logística</small></div>
+      </div>
+      <div class="nav-links">
+        <a href="#/estoque" data-route="estoque">Estoque</a>
+        <a href="#/historico" data-route="historico">Histórico</a>
+        <a href="#/relatorios" data-route="relatorios">Relatórios</a>
+        <a href="#/atencao" data-route="atencao">Atenção <span class="nav-badge" id="navBadge" hidden></span></a>
+      </div>
+      <div class="sidebar-footer">
+        <div class="conn conn-ok" id="conn" title="Conexão com o servidor"><i></i><span id="connTxt">Conectado</span></div>
+        <div class="user-row">
+          <button type="button" class="user-name" id="userName"></button>
+          <button class="btn-ghost" type="button" id="logoutBtn">Sair</button>
+        </div>
+        <span class="versao" id="versao"></span>
+      </div>
+    </nav>
+
+    <main class="content">
+      <div class="faixa-conexao" id="faixaConexao" role="status" hidden></div>
+      <div id="view"></div>
+    </main>
+  </div>
+
+  <!-- ===================== JANELA (formulários) ===================== -->
+  <dialog id="janela" aria-labelledby="jTitulo">
+    <form novalidate>
+      <header class="modal-head">
+        <div>
+          <h2 id="jTitulo" tabindex="-1" autofocus></h2>
+          <p id="jSub"></p>
+        </div>
+        <button type="button" class="modal-x" id="jFecharTopo" aria-label="Fechar" hidden>✕</button>
+      </header>
+      <div class="modal-body" id="jCorpo"></div>
+      <p class="modal-error" id="jErro" role="alert"></p>
+      <footer class="modal-foot">
+        <button type="button" class="btn btn-secondary" id="jCancelar">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="jOk">Salvar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Bibliotecas (cópias locais: não dependem de site externo) -->
+  <script src="js/vendor/supabase.js"></script>
+  <script src="js/vendor/jspdf.umd.min.js" defer></script>
+  <script src="js/vendor/jspdf.plugin.autotable.min.js" defer></script>
+  <script type="module" src="js/app.js"></script>
+  <script>
+    // Registra o service worker (app instalável + abre mesmo com internet ruim)
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+      window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+    }
+  </script>
+</body>
+</html>
